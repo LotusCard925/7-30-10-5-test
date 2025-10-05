@@ -12,6 +12,10 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -26,6 +30,8 @@ jobs:
         with:
           node-version: "20"
           cache: "npm"
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
       - name: Build static site
         run: node generate-site.js
       - name: Upload artifact
